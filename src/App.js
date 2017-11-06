@@ -12,26 +12,39 @@ class BooksApp extends React.Component {
 		info: []
 	}
 
-	componentDidMount() {
-		BooksAPI.getAll().then(data => {
-
-			/* 
-				Create OLAP cube
-			*/
-			const cube = this.cube = new Cube8(data);
-			cube.Dim(d => d.shelf, "Shelf")
-				.SetMeasureFx(d => { return { books: [d] } })
-				.SetRollupFx((a, b) => {
-					return a && b ?
-						{
-							books: a.books.concat(b.books)
-						} : (a ? a : b)
-				})
-			console.log(cube.NestDim(["Shelf"], 1))
-			//Set state
+	getAllBook(){
+		BooksAPI.getAll().then(data => {			
+			const cube = this.cube;
+			cube.Data = data;
 			this.setState({ info: cube.NestDim(["Shelf"], 1) });
 
 		})
+	}
+
+	sendBookToShelf = (book,shelfName)=>{
+		BooksAPI.update(book,shelfName).then(d=>{
+
+		})
+	}
+
+	componentWillMount(){
+		/*
+			Setup OLAP Cube
+		*/
+
+		const cube = this.cube = new Cube8();
+		cube.Dim(d => d.shelf, "Shelf")
+		.SetMeasureFx(d => { return { books: [d] } })
+		.SetRollupFx((a, b) => {
+			return a && b ?
+				{
+					books: a.books.concat(b.books)
+				} : (a ? a : b)
+		})
+	}
+
+	componentDidMount() {
+		this.getAllBook();
 	}
 
 	render() {
