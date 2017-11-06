@@ -12,8 +12,8 @@ class BooksApp extends React.Component {
 		info: []
 	}
 
-	getAllBook(){
-		BooksAPI.getAll().then(data => {			
+	getAllBook() {
+		BooksAPI.getAll().then(data => {
 			const cube = this.cube;
 			cube.Data = data;
 			this.setState({ info: cube.NestDim(["Shelf"], 1) });
@@ -21,26 +21,25 @@ class BooksApp extends React.Component {
 		})
 	}
 
-	sendBookToShelf = (book,shelfName)=>{
-		BooksAPI.update(book,shelfName).then(d=>{
-
+	sendBookToShelf = (book, shelfName) => {
+		BooksAPI.update(book, shelfName).then(d => {
+			this.getAllBook();
 		})
 	}
 
-	componentWillMount(){
+	componentWillMount() {
 		/*
 			Setup OLAP Cube
 		*/
-
 		const cube = this.cube = new Cube8();
 		cube.Dim(d => d.shelf, "Shelf")
-		.SetMeasureFx(d => { return { books: [d] } })
-		.SetRollupFx((a, b) => {
-			return a && b ?
-				{
-					books: a.books.concat(b.books)
-				} : (a ? a : b)
-		})
+			.SetMeasureFx(d => { return { books: [d] } })
+			.SetRollupFx((a, b) => {
+				return a && b ?
+					{
+						books: a.books.concat(b.books)
+					} : (a ? a : b)
+			})
 	}
 
 	componentDidMount() {
@@ -48,10 +47,10 @@ class BooksApp extends React.Component {
 	}
 
 	render() {
-		const { info} = this.state;
+		const { info } = this.state;
 		return (
 			<div className="app">
-				<Route exact path='/' render={()=>
+				<Route exact path='/' render={() =>
 					<div className="list-books">
 						<div className="list-books-title">
 							<h1>My Reads App</h1>
@@ -60,7 +59,7 @@ class BooksApp extends React.Component {
 							<div>
 								{
 									info.map(i => {
-										return <BookShelf key={i.Fact} shelfInfo={i} />
+										return <BookShelf sendBookToShelf={this.sendBookToShelf} key={i.Fact} shelfInfo={i} />
 									})
 								}
 							</div>
@@ -69,8 +68,8 @@ class BooksApp extends React.Component {
 							<Link to='/search'>Add a book</Link>
 						</div>
 					</div>
-				}/>
-				<Route path='/search' component={SearchPage}/>				
+				} />
+				<Route path='/search' component={SearchPage} />
 			</div>
 		)
 	}
