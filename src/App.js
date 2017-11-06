@@ -4,6 +4,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchPage from './components/SearchPage'
 import BookShelf from './components/BookShelf'
+import AppSettings from './AppSettings'
 import Cube8 from 'cube8'
 
 
@@ -23,7 +24,10 @@ class BooksApp extends React.Component {
 
 	sendBookToShelf = (book, shelfName) => {
 		BooksAPI.update(book, shelfName).then(d => {
-			this.getAllBook();
+			book.shelf=shelfName;
+			const cube = this.cube;
+			this.setState({info:cube.NestDim(["Shelf"],1)})
+			//this.getAllBook();
 		})
 	}
 
@@ -48,6 +52,8 @@ class BooksApp extends React.Component {
 
 	render() {
 		const { info } = this.state;
+		info.sort((a,b)=>AppSettings.shelfOrderMap.indexOf(a.Fact)- AppSettings.shelfOrderMap.indexOf(b.Fact));
+
 		return (
 			<div className="app">
 				<Route exact path='/' render={() =>
