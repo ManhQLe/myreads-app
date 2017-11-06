@@ -16,7 +16,9 @@ class BooksApp extends React.Component {
 	getAllBook() {
 		BooksAPI.getAll().then(data => {
 			const cube = this.cube;
-			cube.Data = data;
+			//Set data
+			cube.Data = data;			
+			//Get Summary
 			this.setState({ info: cube.NestDim(["Shelf"], 1) });
 
 		})
@@ -26,6 +28,8 @@ class BooksApp extends React.Component {
 		BooksAPI.update(book, shelfName).then(d => {
 			book.shelf=shelfName;
 			const cube = this.cube;
+			
+			//Set summary			
 			this.setState({info:cube.NestDim(["Shelf"],1)})
 			//this.getAllBook();
 		})
