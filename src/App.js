@@ -9,8 +9,7 @@ import Cube8 from 'cube8'
 
 class BooksApp extends React.Component {
 	state = {
-		info: [],
-		showSearchPage: false
+		info: []
 	}
 
 	componentDidMount() {
@@ -36,7 +35,7 @@ class BooksApp extends React.Component {
 	}
 
 	render() {
-		const { info, showSearchPage } = this.state;
+		const { info} = this.state;
 		return (
 			<div className="app">
 				<Route exact path='/' render={()=>
@@ -54,11 +53,11 @@ class BooksApp extends React.Component {
 							</div>
 						</div>
 						<div className="open-search">
-							<Link to='/addbook'>Add a book</Link>
+							<Link to='/search'>Add a book</Link>
 						</div>
 					</div>
 				}/>
-				<Route path='/addbook' component={SearchPage}/>				
+				<Route path='/search' component={SearchPage}/>				
 			</div>
 		)
 	}
