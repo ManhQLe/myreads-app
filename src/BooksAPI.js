@@ -49,4 +49,4 @@ export const search = (query, maxResults) =>
 			maxResults
 		})
 	}).then(res => res.json())
-	.then(data => data.books)
+	.then(data => Array.isArray(data.books)?data.books:[])

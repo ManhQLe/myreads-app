@@ -24,11 +24,13 @@ class BooksApp extends React.Component {
 		})
 	}
 
+
 	sendBookToShelf = (book, shelfName) => {
 		BooksAPI.update(book, shelfName).then(d => {
-			book.shelf=shelfName;
 			const cube = this.cube;
-			
+			book.shelf=shelfName;									
+			cube.Data.find(b=>b.id===book.id) || cube.Data.push(book);
+
 			//Set summary			
 			this.setState({info:cube.NestDim(["Shelf"],1)})
 			//this.getAllBook();
@@ -79,7 +81,7 @@ class BooksApp extends React.Component {
 						</div>
 					</div>
 				} />
-				<Route path='/search' component={SearchPage} />
+				<Route path='/search' component={()=><SearchPage sendBookToShelf={this.sendBookToShelf}/>} />
 			</div>
 		)
 	}
