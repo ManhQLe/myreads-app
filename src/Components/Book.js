@@ -19,7 +19,7 @@ class Book extends Component {
                 <div className="book-cover"
                     style={{ width: 128, height: 193, backgroundImage: `url("${this.getThumbnailUrl(book)}")` }}></div>
                 <div className="book-shelf-changer">
-                    <select onChange={(e) => this.props.sendBookToShelf(book,e.target.value)} defaultValue={book.shelf && book.shelf.length ? book.shelf : 'none'}>
+                    <select onChange={(e) => this.props.onShelfChanged(book,e.target.value)} defaultValue={book.shelf && book.shelf.length ? book.shelf : 'none'}>
                         <option value="none" disabled>Move to...</option>
                         {
                             AppSettings.shelfOrderMap.map(sid => (

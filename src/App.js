@@ -24,15 +24,33 @@ class BooksApp extends React.Component {
 		})
 	}
 
+	queryChanged = (q,fx)=>{
+		const currentBooks = this.cube.Data;		
+		let shelfLookup = {}
+        q&&q.length?
+        BooksAPI.search(q,100).then(foundBooks=>{
+			currentBooks.forEach(b=>shelfLookup[b.id] = b.shelf)			
+			foundBooks.forEach(b=>shelfLookup[b.id]?b.shelf=shelfLookup[b.id]:0 );
+			fx(foundBooks);
+		}):fx([])
+	}	
 
-	sendBookToShelf = (book, shelfName) => {
+	onShelfChanged = (book, shelfName,refresh) => {
 		BooksAPI.update(book, shelfName).then(d => {
-			const cube = this.cube;
-			book.shelf=shelfName;									
-			cube.Data.find(b=>b.id===book.id) || cube.Data.push(book);
+			const cube = this.cube;	
+			console.log(book.shelf)					
+			book.shelf=shelfName;			
+			console.log(book.shelf)	
+			const remove = shelfName === 'none'
+			remove?
+			cube.Data = cube.Data.filter(b=>b.id!==book.id)
+			:
+			(cube.Data.find(b=>b.id===book.id) || cube.Data.push(book));
 
 			//Set summary			
+			refresh?			
 			this.setState({info:cube.NestDim(["Shelf"],1)})
+			:this.state.info = cube.NestDim(["Shelf"],1);
 			//this.getAllBook();
 		})
 	}
@@ -52,7 +70,7 @@ class BooksApp extends React.Component {
 			})
 	}
 
-	componentDidMount() {
+	componentDidMount() {	
 		this.getAllBook();
 	}
 
@@ -71,7 +89,7 @@ class BooksApp extends React.Component {
 							<div>
 								{
 									info.map(i => {
-										return <BookShelf sendBookToShelf={this.sendBookToShelf} key={i.Fact} shelfInfo={i} />
+										return <BookShelf onShelfChanged={this.onShelfChanged} key={i.Fact} shelfInfo={i} />
 									})
 								}
 							</div>
@@ -81,7 +99,7 @@ class BooksApp extends React.Component {
 						</div>
 					</div>
 				} />
-				<Route path='/search' component={()=><SearchPage sendBookToShelf={this.sendBookToShelf}/>} />
+				<Route path='/search' component={()=><SearchPage onQueryChanged={this.queryChanged} onShelfChanged={this.onShelfChanged}/>} />
 			</div>
 		)
 	}

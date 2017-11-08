@@ -8,6 +8,11 @@ class BookShelf extends Component {
         shelfInfo:PropTypes.object.isRequired
     }
 
+    onShelfChanged=(book,shelfName)=>{
+        //Update status = true
+        this.props.onShelfChanged(book,shelfName,true);
+    }
+
     state = {
         expand:true
     }
@@ -21,7 +26,7 @@ class BookShelf extends Component {
                 <div className="bookshelf-books">
                     <ol className="books-grid">
                         {
-                            books.map(b => <li key={b.id}><Book sendBookToShelf={this.props.sendBookToShelf} book={b}/></li>)
+                            books.map(b => <li key={b.id}><Book onShelfChanged={this.onShelfChanged} book={b}/></li>)
                         }
                     </ol>
                 </div>

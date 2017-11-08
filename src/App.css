@@ -4,6 +4,7 @@ body,
     height: 100%;
 }
 
+
 body {
     line-height: 1.5;    
 }
@@ -13,7 +14,9 @@ body,
     background: white;
     font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 }
-
+h1{
+    font-weight: lighter;
+}
 
 /* main page */
 
@@ -46,6 +49,7 @@ body,
 
 .bookshelf-title {
     border-bottom: 1px solid #dedede;
+    font-weight: 400;
 }
 
 .bookshelf-books {
@@ -87,6 +91,11 @@ body,
     z-index: 5;
     display: flex;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 0 6px rgba(0, 0, 0, 0.23);
+}
+
+.search-result-text{
+    text-align: center;
+    margin-top:80px;
 }
 
 .search-books-input-wrapper {
