@@ -94,8 +94,9 @@ h1{
 }
 
 .search-result-text{
-    text-align: center;
-    margin-top:80px;
+    text-align: center;    
+    padding:80px 10px 10px 10px;
+    margin-bottom: 10px;
 }
 
 .search-books-input-wrapper {
@@ -131,7 +132,7 @@ h1{
 }
 
 .search-books-results {
-    padding: 80px 10px 20px;
+    padding: 10px 10px 20px;
 }
 
 
