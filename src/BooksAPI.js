@@ -15,7 +15,12 @@ export const get = (bookId) =>
 	fetch(`${api}/books/${bookId}`, {
 		headers
 	})
-	.then(res =>res.ok?res.json().book:null)	
+	.then(res=>{
+		if(!res.ok)
+			throw Error(res.status)
+		return res.json()
+	})
+	.then(data=>data.book)
 
 export const getAll = () =>
 	fetch(`${api}/books`, {

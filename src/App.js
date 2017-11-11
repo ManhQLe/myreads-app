@@ -17,7 +17,8 @@ class BooksApp extends React.Component {
 	getBookById = (id,fx)=> {
 		const {Data} = this.state.cube;
 		const book = Data?Data.find(b=>b.id===id):null;
-		book?fx(book):BooksAPI.get(id).then(fx);
+		book?fx(book):BooksAPI.get(id).then(fx)
+		.catch(ex=>fx(null))
 	}
 
 	getAllBook() {

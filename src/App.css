@@ -235,8 +235,21 @@ h1{
 }
 .book-details-content{
     padding-top:80px;
+    padding-right:10px;
+    padding-left:10px;
     text-align: center;
 }
+h1.book-details-title{
+    padding: 0;
+    margin: 0;
+}
+
+.book-details-des{
+    text-align: left;
+    color:#505050;
+    font-style: italic;
+}
+
 .book-details-not-found {
     color:#d35400;
     font-weight:200;
