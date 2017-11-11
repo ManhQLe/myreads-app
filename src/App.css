@@ -242,6 +242,8 @@ h1{
 h1.book-details-title{
     padding: 0;
     margin: 0;
+    color:#f39c12;
+    display:inline-block;
 }
 
 .book-details-des{
@@ -253,6 +255,34 @@ h1.book-details-title{
 .book-details-not-found {
     color:#d35400;
     font-weight:200;
+}
+
+.book-details-lang{    
+    display: inline-block;   
+    width:25px;
+    height: 25px; 
+    text-align: center;
+    vertical-align: middle;
+    background-color: #ecf0f1;
+    color:#3498db;
+    border-radius: 50%;
+    font-size: .9em;
+    align-self: flex-start;
+}
+
+.book-details-short-label{
+    padding: 3px 5px 3px 5px;
+    display: inline-block;   
+    border-radius: 3px; 
+}
+
+.book-details-line{
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;    
+}
+.book-details-line > span {
+    margin-left: 5px;
 }
 
 .wait-one{

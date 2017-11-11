@@ -7,6 +7,10 @@ class Book extends Component {
         return book.authors ? book.authors.join(", ") : ""
     }
 
+    static getReviewCount(book){
+        return book.ratingsCount?book.ratingsCount:0
+    }
+
     static getThumbnailUrl(book) {
         const thumbnail = book.imageLinks ? book.imageLinks.thumbnail : null;
         return thumbnail || "/icons/add.svg";
