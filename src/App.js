@@ -7,9 +7,6 @@ import BookShelf from './components/BookShelf'
 import AppSettings from './AppSettings'
 import Cube8 from 'cube8'
 
-
-
-
 class BooksApp extends React.Component {
 
 	state = {

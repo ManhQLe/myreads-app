@@ -209,6 +209,11 @@ h1{
 .book-cover {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     background: #eee;
+    transition: all 0.2s ease-in-out;
+}
+
+.book-cover:hover{
+    box-shadow: 2px 3px 6px rgba(255, 196, 0, 0.64), 2px 3px 6px rgba(255, 196, 0, 0.64);
 }
 
 .book-cover-title {
