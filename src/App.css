@@ -15,7 +15,7 @@ body,
     font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 }
 h1{
-    font-weight: lighter;
+    font-weight: 300;
 }
 
 /* main page */
@@ -82,8 +82,9 @@ h1{
 }
 
 /* search page */
-
+.app-bar,
 .search-books-bar {
+    align-items: stretch;
     position: fixed;
     width: 100%;
     top: 0;
@@ -91,6 +92,11 @@ h1{
     z-index: 5;
     display: flex;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 0 6px rgba(0, 0, 0, 0.23);
+}
+
+.app-bar-title {    
+    font-size: 1.25em;
+    font-weight: 400;
 }
 
 .search-result-text{
@@ -111,12 +117,13 @@ h1{
     outline: none;
 }
 
+.return-home,
 .close-search {    
     display: block;
     top: 20px;
     left: 15px;
     width: 50px;
-    height: 53px;
+
     background-color: white;    
     background-image: url(./icons/arrow-back.svg);
     background-position: center;
@@ -127,6 +134,7 @@ h1{
     cursor: pointer;
 }
 
+.return-home:hover,
 .close-search:hover{
     background-color: #ecf0f1
 }
@@ -221,3 +229,41 @@ h1{
     text-align: center;
     font-size: 0.8em;
 }
+
+.book-details{   
+    padding: 0; 
+}
+.book-details-content{
+    padding-top:80px;
+    text-align: center;
+}
+.book-details-not-found {
+    color:#d35400;
+    font-weight:200;
+}
+
+.wait-one{
+    transform-origin: 50% 50%;
+    animation-iteration-count: infinite;
+    animation-name:rotate-forever;    
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    color: rgba(0, 0, 0, 0.87); background-color: rgb(255, 255, 255); transition: none; box-sizing: border-box; font-family: Roboto, sans-serif; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px; border-radius: 50%; z-index: 2; width: 40px; height: 40px; padding: 4px; top: -10000px; left: -10000px; transform: translate(10010px, 10000px); opacity: 1; display: inline-block;
+}
+
+.wait-two{
+    transition: transform 10s linear 0ms; width: 100%; height: 100%; transform: rotate(1800deg);
+}
+
+.wait-three{
+    stroke-dasharray: 44.2336, 200; stroke-dashoffset: -15; stroke: rgb(0, 188, 212); stroke-linecap: round; opacity: 1; stroke-width: 3; fill: none; transition: all 750ms ease-in-out 0ms;
+}
+
+@keyframes rotate-forever {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

@@ -4,6 +4,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchPage from './components/SearchPage'
 import BookShelf from './components/BookShelf'
+import BookDetails from './components/BookDetails'
 import AppSettings from './AppSettings'
 import Cube8 from 'cube8'
 
@@ -99,7 +100,8 @@ class BooksApp extends React.Component {
 		return (
 			<div className="app">
 				<Route exact path='/' render={this.renderShelf} />
-				<Route path='/search' component={() => <SearchPage onQueryChanged={this.queryChanged} onShelfChanged={this.onShelfChanged} />} />
+				<Route path='/search' render={() => <SearchPage onQueryChanged={this.queryChanged} onShelfChanged={this.onShelfChanged} />} />
+				<Route path='/book/:id' render={()=><BookDetails/>}/>
 			</div>
 		);
 	}
