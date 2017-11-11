@@ -27,7 +27,7 @@ function BookInfo(props) {
 
 class BookDetails extends Component {
     static propTypes = {
-        getBookById: PropTypes.func
+        getBookById: PropTypes.func.isRequired
     }
 
     status = {
@@ -35,7 +35,13 @@ class BookDetails extends Component {
         loading: 1
     }
     componentDidMount() {
+        const {getBookById} = this.props;
+        //Get Id from url;
+        const id = ""
 
+        getBookById(id,()=>{
+            this.setStatus()
+        })
     }
 
     render() {
@@ -49,7 +55,7 @@ class BookDetails extends Component {
                 </div>
                 <div className="book-details-content">
                     {
-                        loading === 1 && <BookInfo book={{}} />
+                        loading === 1 && <BookInfo book={{book}} />
                     }
                     {
                         loading === 2 &&

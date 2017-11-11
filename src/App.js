@@ -14,6 +14,12 @@ class BooksApp extends React.Component {
 		cube: new Cube8()
 	}
 
+	getBookById = (id,fx)=> {
+		const {Data} = this.state.cube;
+		const book = Data?Data.find(b=>b.id===id):null;
+		book?fx(book):BooksAPI.get(id).then(fx);
+	}
+
 	getAllBook() {
 		BooksAPI.getAll().then(data => {
 			const cube = this.state.cube;
@@ -101,7 +107,7 @@ class BooksApp extends React.Component {
 			<div className="app">
 				<Route exact path='/' render={this.renderShelf} />
 				<Route path='/search' render={() => <SearchPage onQueryChanged={this.queryChanged} onShelfChanged={this.onShelfChanged} />} />
-				<Route path='/book/:id' render={()=><BookDetails/>}/>
+				<Route path='/book/:id' render={()=><BookDetails getBookById={this.getBookById}/>}/>
 			</div>
 		);
 	}
