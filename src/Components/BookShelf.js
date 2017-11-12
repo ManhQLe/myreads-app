@@ -14,15 +14,9 @@ class BookShelf extends Component {
         onShelfToggled && onShelfToggled(name);
     }
 
-    onShelfChanged=(book,shelfName)=>{
-        //Update status = true
-        this.props.onShelfChanged(book,shelfName,true);
-    }
-
-
     
     render() {
-        const { shelfInfo,collapsed} = this.props                
+        const { shelfInfo,collapsed,onShelfChanged} = this.props                
         const books = shelfInfo.Rollup.books;                
         books.sort((a,b)=>a.title.localeCompare(b.title));
         return (
@@ -32,7 +26,7 @@ class BookShelf extends Component {
                 <div className="bookshelf-books" style={{display:collapsed?"none":"initial"}}>
                     <ol className="books-grid">
                         {
-                            books.map(b => <li key={b.id}><Book onShelfChanged={this.onShelfChanged} book={b}/></li>)
+                            books.map(b => <li key={b.id}><Book onShelfChanged={onShelfChanged} book={b}/></li>)
                         }
                     </ol>
                 </div>

@@ -58,7 +58,7 @@ class BooksApp extends React.Component {
 			}) : this.setState({searchInfo:{words:"",found:null}})
 	}
 
-	onShelfChanged = (book, shelfName, refresh,cb) => {
+	onShelfChanged = (book, shelfName) => {
 		BooksAPI.update(book, shelfName).then(d => {
 			const { cube } = this.state;
 
@@ -69,8 +69,7 @@ class BooksApp extends React.Component {
 				cube.Data = cube.Data.filter(b => b.id !== book.id)
 				:
 				(cube.Data.find(b => b.id === book.id) || cube.Data.push(book));
-			cb && cb(remove);
-			refresh && this.setState({})
+			this.setState({})
 		});
 	}
 
@@ -80,10 +79,7 @@ class BooksApp extends React.Component {
 		cube.Dim(d => d.shelf, "Shelf")
 			.SetMeasureFx(d => { return { books: [d] } })
 			.SetRollupFx((a, b) => {
-				return a && b ?
-					{
-						books: [...a.books,...b.books]
-					} : (a ? a : b)
+				return a && b ?{books: [...a.books,...b.books]} : (a ? a : b)
 			});
 	}
 
