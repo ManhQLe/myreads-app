@@ -50,7 +50,7 @@ class BooksApp extends React.Component {
 			}) : fx([])
 	}
 
-	onShelfChanged = (book, shelfName, refresh) => {
+	onShelfChanged = (book, shelfName, refresh,cb) => {
 		BooksAPI.update(book, shelfName).then(d => {
 			const { cube } = this.state;
 
@@ -61,7 +61,7 @@ class BooksApp extends React.Component {
 				cube.Data = cube.Data.filter(b => b.id !== book.id)
 				:
 				(cube.Data.find(b => b.id === book.id) || cube.Data.push(book));
-
+			cb && cb(remove);
 			refresh && this.setState({})
 		});
 	}

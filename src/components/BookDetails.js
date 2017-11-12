@@ -124,7 +124,7 @@ class BookDetails extends Component {
         return (
             <div className="book-details">
                 <div className="app-bar">
-                    <Link className="return-home" to="/">Close</Link>
+                    <a className="return-home" to="/" onClick={()=>window.history.back()}>Close</a>
                     <h1 className="app-bar-title">Book Details</h1>
                 </div>
                 <div className="book-details-content">
