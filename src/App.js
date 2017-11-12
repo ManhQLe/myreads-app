@@ -11,7 +11,8 @@ import Cube8 from 'cube8'
 class BooksApp extends React.Component {
 
 	state = {
-		cube: new Cube8()
+		cube: new Cube8(),
+		shelfToggleMap:{}
 	}
 
 	getBookById = (id,fx)=> {
@@ -19,6 +20,12 @@ class BooksApp extends React.Component {
 		const book = Data?Data.find(b=>b.id===id):null;
 		book?fx(book):BooksAPI.get(id).then(fx)
 		.catch(ex=>fx(null))
+	}
+
+	onShelfToggled = (shelfName)=>{
+		const {shelfToggleMap} = this.state
+		shelfToggleMap[shelfName] = !shelfToggleMap[shelfName];
+		this.setState({shelfToggleMap});
 	}
 
 	getAllBook() {
@@ -78,7 +85,7 @@ class BooksApp extends React.Component {
 
 
 	renderShelf=()=> {
-		const { cube } = this.state;
+		const { cube,shelfToggleMap } = this.state;
 		const info = cube.Data ? cube.NestDim(["Shelf"], 1) : [];
 		info.sort((a, b) => AppSettings.shelfOrderMap.indexOf(a.Fact) - AppSettings.shelfOrderMap.indexOf(b.Fact));
 
@@ -91,7 +98,7 @@ class BooksApp extends React.Component {
 					<div>
 						{
 							info.map(i => {
-								return <BookShelf onShelfChanged={this.onShelfChanged} key={i.Fact} shelfInfo={i} />
+								return <BookShelf collapsed={shelfToggleMap[i.Fact]} onShelfToggled={this.onShelfToggled} onShelfChanged={this.onShelfChanged} key={i.Fact} shelfInfo={i} />
 							})
 						}
 					</div>

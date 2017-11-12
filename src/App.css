@@ -48,13 +48,32 @@ h1{
 }
 
 .bookshelf-title {
+    cursor: pointer;
     border-bottom: 1px solid #dedede;
-    font-weight: 400;
+    font-weight: 600;
+    transition: color 0.1s ease-in-out;
 }
-
+.bookshelf-title:hover{
+    color:#e74c3c
+}
 .bookshelf-books {
     text-align: center;
 }
+
+
+.bookshelf-title-button{
+    margin-right: .2em;
+    font-size: 1.2em;
+    transform-origin: 0% 50%;    
+    transform: rotate(45deg);
+    transition: transform 0.1s ease-in-out;        
+}
+
+.bookshelf-title-button[data-collapsed='true']{
+    transform: rotate(0deg)
+}
+
+
 
 .open-search {
     position: fixed;
@@ -171,6 +190,8 @@ h1{
 
 .book-title {
     margin-top: 10px;
+    font-size: 1em;
+    color:#2c3e50;
 }
 
 .book-authors {

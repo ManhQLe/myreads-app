@@ -78,7 +78,7 @@ function BookInfo(props) {
             <div>
                 <div className="book-details-line">
                     {
-                        book.categories.map(c=>
+                        book.categories&& book.categories.map(c=>
                             <ShortLabel key={c} color="#16a085" backgroundColor="#F0F0F0" text={c}/>   
                         )                        
                     }                    
