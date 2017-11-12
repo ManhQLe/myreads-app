@@ -47,7 +47,7 @@ function BookInfo(props) {
         <div>
             <ol className="books-grid" style={{ textAlign: 'left', justifyContent: 'flex-start' }}>
                 <li>
-                    <div className="book-cover"
+                    <div className="book-cover-details"
                         style={{
                             width: 128, height: 193,
                             backgroundImage: `url("${Book.getThumbnailUrl(book)}")`
@@ -71,8 +71,19 @@ function BookInfo(props) {
                     <div className="book-details-line"><ShortLabel color="#95a5a6" backgroundColor="#ecf0f1" text='Publisher'/> <span>{book.publisher}</span></div>
                 </li>
             </ol>
-            <div className="book-details-des">
+            <p className="book-details-des">
                 {book.description}
+            </p>
+            <div>
+                <div className="book-details-line">
+                    {
+                        book.categories.map(c=>
+                            <ShortLabel color="#16a085" backgroundColor="#F0F0F0" text={c}/>   
+                        )
+                    }                    
+                    <ShortLabel color="#95a5a6" backgroundColor="#F0F0F0" text={`Print Type: ${book.printType}`}/>
+                    <ShortLabel color="#5C5C5C" backgroundColor="#F0F0F0" text={`${book.pageCount} pages`}/>
+                </div>
             </div>
         </div>)
 }
