@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Book from './Book'
-import { Link } from 'react-router-dom'
 const UrlPattern = require('url-pattern');
 
 function Rating(props){

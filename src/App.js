@@ -12,7 +12,11 @@ class BooksApp extends React.Component {
 
 	state = {
 		cube: new Cube8(),
-		shelfToggleMap:{}
+		shelfToggleMap:{},
+		searchInfo:{
+			words:"",
+			found:null
+		}
 	}
 
 	getBookById = (id,fx)=> {
@@ -29,25 +33,29 @@ class BooksApp extends React.Component {
 	}
 
 	getAllBook() {
-		BooksAPI.getAll().then(data => {
+		return BooksAPI.getAll().then(data => {
 			const cube = this.state.cube;
 			//Set data
 			cube.Data = data;
-			//Get Summary
-			this.setState({})
+			//Get Summary			
 		});
 	}
 
-	queryChanged = (q, fx) => {
+	queryChanged = (q) => {
+
 		const { cube } = this.state;
 		const currentBooks = cube.Data;
 		let shelfLookup = {}
+		
 		q && q.length ?
 			BooksAPI.search(q, 100).then(foundBooks => {
+				const words = q;
 				currentBooks.forEach(b => shelfLookup[b.id] = b.shelf)
 				foundBooks.forEach(b => shelfLookup[b.id] ? b.shelf = shelfLookup[b.id] : 0);
-				fx(foundBooks);
-			}) : fx([])
+				const searchInfo = {words,found:foundBooks};
+				this.setState({searchInfo})
+
+			}) : this.setState({searchInfo:{words:"",found:null}})
 	}
 
 	onShelfChanged = (book, shelfName, refresh,cb) => {
@@ -74,18 +82,19 @@ class BooksApp extends React.Component {
 			.SetRollupFx((a, b) => {
 				return a && b ?
 					{
-						books: a.books.concat(b.books)
+						books: [...a.books,...b.books]
 					} : (a ? a : b)
 			});
 	}
 
 	componentDidMount() {
-		this.getAllBook();
+		this.getAllBook().then(()=>this.setState({}))
 	}
 
 
 	renderShelf=()=> {
 		const { cube,shelfToggleMap } = this.state;
+		
 		const info = cube.Data ? cube.NestDim(["Shelf"], 1) : [];
 		info.sort((a, b) => AppSettings.shelfOrderMap.indexOf(a.Fact) - AppSettings.shelfOrderMap.indexOf(b.Fact));
 
@@ -104,7 +113,7 @@ class BooksApp extends React.Component {
 					</div>
 				</div>
 				<div className="open-search">
-					<Link to='/search'>Add a book</Link>
+					<Link to="/search">Add a book</Link>
 				</div>
 			</div>)
 	}
@@ -114,7 +123,7 @@ class BooksApp extends React.Component {
 		return (
 			<div className="app">
 				<Route exact path='/' render={this.renderShelf} />
-				<Route path='/search' render={() => <SearchPage onQueryChanged={this.queryChanged} onShelfChanged={this.onShelfChanged} />} />
+				<Route path='/search' render={() => <SearchPage searchInfo={this.state.searchInfo} onQueryChanged={this.queryChanged} onShelfChanged={this.onShelfChanged} />} />
 				<Route path='/book/:id' render={()=><BookDetails getBookById={this.getBookById}/>}/>
 			</div>
 		);
