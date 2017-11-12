@@ -43,6 +43,7 @@ function ShortLabel(props) {
 function BookInfo(props) {
     const { book } = props;
     const reviews = Book.getReviewCount(book);
+
     return (
         <div>
             <ol className="books-grid" style={{ textAlign: 'left', justifyContent: 'flex-start' }}>
@@ -78,11 +79,18 @@ function BookInfo(props) {
                 <div className="book-details-line">
                     {
                         book.categories.map(c=>
-                            <ShortLabel color="#16a085" backgroundColor="#F0F0F0" text={c}/>   
-                        )
+                            <ShortLabel key={c} color="#16a085" backgroundColor="#F0F0F0" text={c}/>   
+                        )                        
                     }                    
                     <ShortLabel color="#95a5a6" backgroundColor="#F0F0F0" text={`Print Type: ${book.printType}`}/>
                     <ShortLabel color="#5C5C5C" backgroundColor="#F0F0F0" text={`${book.pageCount} pages`}/>
+                    <i title="Image" className="fa fa-picture-o book-details-icon" 
+                        style={{color:book.readingModes.image?"#2ecc71":"#f0f0f0"}} 
+                        aria-hidden="true"></i>
+                    <i title="Text" className="fa fa-font book-details-icon" 
+                        style={{color:book.readingModes.text?"#2ecc71":"#f0f0f0"}} 
+                        aria-hidden="true"></i>
+                    
                 </div>
             </div>
         </div>)

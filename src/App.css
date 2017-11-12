@@ -315,3 +315,11 @@ h1.book-details-title{
       transform: rotate(360deg);
     }
   }
+
+  /*
+    FONT AWESOME ADDITIONAL STYLING  
+  */
+  .book-details-icon{
+      margin-left:3px;
+      font-size: 1.7em;
+  }
