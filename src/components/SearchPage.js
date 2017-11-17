@@ -5,9 +5,7 @@ class SearchPage extends Component {
 
     onShelfChanged = (book,shelfName)=>{
         const {onShelfChanged} = this.props;
-        onShelfChanged &&onShelfChanged (book,shelfName,false,()=>{
-            this.setState({});
-        })
+        onShelfChanged &&onShelfChanged (book,shelfName)
     }
 
     render() {

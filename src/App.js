@@ -8,28 +8,29 @@ import BookDetails from './components/BookDetails'
 import AppSettings from './AppSettings'
 import Cube8 from 'cube8'
 
+
 class BooksApp extends React.Component {
 
 	state = {
 		cube: new Cube8(),
-		shelfToggleMap:{},
-		searchInfo:{
-			words:"",
-			found:null
+		shelfToggleMap: {},
+		searchInfo: {
+			words: "",
+			found: null
 		}
 	}
 
-	getBookById = (id,fx)=> {
-		const {Data} = this.state.cube;
-		const book = Data?Data.find(b=>b.id===id):null;
-		book?fx(book):BooksAPI.get(id).then(fx)
-		.catch(ex=>fx(null))
+	getBookById = (id, fx) => {
+		const { Data } = this.state.cube;
+		const book = Data ? Data.find(b => b.id === id) : null;
+		book ? fx(book) : BooksAPI.get(id).then(fx)
+			.catch(ex => fx(null))
 	}
 
-	onShelfToggled = (shelfName)=>{
-		const {shelfToggleMap} = this.state
+	onShelfToggled = (shelfName) => {
+		const { shelfToggleMap } = this.state
 		shelfToggleMap[shelfName] = !shelfToggleMap[shelfName];
-		this.setState({shelfToggleMap});
+		this.setState({ shelfToggleMap });
 	}
 
 	getAllBook() {
@@ -46,30 +47,42 @@ class BooksApp extends React.Component {
 		const { cube } = this.state;
 		const currentBooks = cube.Data;
 		let shelfLookup = {}
-		
+
 		q && q.length ?
 			BooksAPI.search(q, 100).then(foundBooks => {
 				const words = q;
 				currentBooks.forEach(b => shelfLookup[b.id] = b.shelf)
 				foundBooks.forEach(b => shelfLookup[b.id] ? b.shelf = shelfLookup[b.id] : 0);
-				const searchInfo = {words,found:foundBooks};
-				this.setState({searchInfo})
+				const searchInfo = { words, found: foundBooks };
+				this.setState({ searchInfo })
 
-			}) : this.setState({searchInfo:{words:"",found:null}})
+			}) : this.setState({ searchInfo: { words: "", found: null } })
 	}
-
+	
 	onShelfChanged = (book, shelfName) => {
-		BooksAPI.update(book, shelfName).then(d => {
-			const { cube } = this.state;
+		return BooksAPI.update(book, shelfName).then(d => {
+			const { cube, searchInfo } = this.state;
 
 			book.shelf = shelfName;
 			const remove = shelfName === 'none'
 
-			remove ?
+			if(remove)
 				cube.Data = cube.Data.filter(b => b.id !== book.id)
-				:
-				(cube.Data.find(b => b.id === book.id) || cube.Data.push(book));
-			this.setState({})
+			else{
+				let cb = cube.Data.find(b => b.id === book.id)
+				cb?(cb.shelf = shelfName):cube.Data.push(book);
+			}
+
+			//Update search information
+			if(searchInfo.found)
+			for (let fb of searchInfo.found) {
+				if(fb.id === book.id)
+				{
+					fb.shelf = shelfName
+					break;
+				}
+			}
+			this.setState({searchInfo})
 		});
 	}
 
@@ -79,18 +92,18 @@ class BooksApp extends React.Component {
 		cube.Dim(d => d.shelf, "Shelf")
 			.SetMeasureFx(d => { return { books: [d] } })
 			.SetRollupFx((a, b) => {
-				return a && b ?{books: [...a.books,...b.books]} : (a ? a : b)
+				return a && b ? { books: [...a.books, ...b.books] } : (a ? a : b)
 			});
 	}
 
 	componentDidMount() {
-		this.getAllBook().then(()=>this.setState({}))
+		this.getAllBook().then(() => this.setState({}))
 	}
 
 
-	renderShelf=()=> {
-		const { cube,shelfToggleMap } = this.state;
-		
+	renderShelf = () => {
+		const { cube, shelfToggleMap } = this.state;
+
 		const info = cube.Data ? cube.NestDim(["Shelf"], 1) : [];
 		info.sort((a, b) => AppSettings.shelfOrderMap.indexOf(a.Fact) - AppSettings.shelfOrderMap.indexOf(b.Fact));
 
@@ -120,7 +133,7 @@ class BooksApp extends React.Component {
 			<div className="app">
 				<Route exact path='/' render={this.renderShelf} />
 				<Route path='/search' render={() => <SearchPage searchInfo={this.state.searchInfo} onQueryChanged={this.queryChanged} onShelfChanged={this.onShelfChanged} />} />
-				<Route path='/book/:id' render={()=><BookDetails getBookById={this.getBookById}/>}/>
+				<Route path='/book/:id' render={() => <BookDetails getBookById={this.getBookById} />} />
 			</div>
 		);
 	}
