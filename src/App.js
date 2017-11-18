@@ -11,14 +11,19 @@ import Cube8 from 'cube8'
 
 class BooksApp extends React.Component {
 
-	state = {
-		cube: new Cube8(),
-		shelfToggleMap: {},
-		searchInfo: {
-			words: "",
-			found: null
+	constructor(props){
+		super(props)
+		this.state = {
+			cube: new Cube8(),
+			shelfToggleMap: {},
+			searchInfo: {
+				words: "",
+				found: null
+			}
 		}
 	}
+
+	
 
 	getBookById = (id, fx) => {
 		const { Data } = this.state.cube;
@@ -46,17 +51,20 @@ class BooksApp extends React.Component {
 
 		const { cube } = this.state;
 		const currentBooks = cube.Data;
-		let shelfLookup = {}
+		let shelfLookup = {}		
 
-		q && q.length ?
-			BooksAPI.search(q, 100).then(foundBooks => {
-				const words = q;
+		if(q && q.length)
+		{
+			const words = q;
+			BooksAPI.search(q, 100).then(foundBooks => {				
 				currentBooks.forEach(b => shelfLookup[b.id] = b.shelf)
 				foundBooks.forEach(b => shelfLookup[b.id] ? b.shelf = shelfLookup[b.id] : 0);
 				const searchInfo = { words, found: foundBooks };
 				this.setState({ searchInfo })
 
-			}) : this.setState({ searchInfo: { words: "", found: null } })
+			}) 
+		}
+		else this.setState({ searchInfo: { words: "", found: null } })
 	}
 	
 	onShelfChanged = (book, shelfName) => {
@@ -97,7 +105,7 @@ class BooksApp extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getAllBook().then(() => this.setState({}))
+		this.getAllBook().then(() => this.forceUpdate())
 	}
 
 
