@@ -60,7 +60,7 @@ function BookInfo(props) {
                     </div>
                     <div className="book-details-line">
                         <ShortLabel text="Rating" color="#f1c40f"/>&nbsp;<Rating stars={book.averageRating}/>
-                        <span style={{display:"inline-block",verticalAlign:'middle'}}>({`${reviews} review${reviews?"s":""}`})</span>
+                        <span style={{display:"inline-block",verticalAlign:'middle'}}>({`${reviews} review${reviews>1?"s":""}`})</span>
                     </div>
                     <div className="book-details-line"><ShortLabel text='Author(s)' backgroundColor="#7f8c8d" /> <span>{Book.getAuthorName(book)}</span></div>
                     <div className="book-details-line"><ShortLabel
